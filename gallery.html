@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .gallery{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px 22px;
+  }
+  .polaroid{
+    --tilt: 0deg;
+    background: var(--white);
+    border-radius: 12px;
+    padding: 14px 14px 34px;
+    box-shadow: 0 10px 24px rgba(75,58,107,0.1);
+    position:relative;
+    opacity: 0;
+    transform: translateY(30px) rotate(var(--tilt));
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .polaroid.visible{
+    opacity: 1;
+    transform: translateY(0) rotate(var(--tilt));
+  }
+  .polaroid:nth-child(1){ --tilt: -3deg; transition-delay: 0s; }
+  .polaroid:nth-child(2){ --tilt: 2deg; transition-delay: 0.08s; }
+  .polaroid:nth-child(3){ --tilt: -1.5deg; transition-delay: 0.16s; }
+  .polaroid:nth-child(4){ --tilt: 2.5deg; transition-delay: 0.24s; }
+  .polaroid:nth-child(5){ --tilt: -2deg; transition-delay: 0.32s; }
+  .polaroid:nth-child(6){ --tilt: 1.5deg; transition-delay: 0.4s; }
+
+  .photo-slot{
+    aspect-ratio: 1/1;
+    border-radius: 6px;
+    overflow:hidden;
+    background: linear-gradient(135deg, var(--blush), var(--gold-soft));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .photo-slot img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .photo-slot span{ font-size: 13px; color: var(--plum-soft); opacity:0.7; }
+  .caption{
+    text-align:center;
+    font-family:'Baloo 2', sans-serif;
+    font-size: 13px;
+    color: var(--plum-soft);
+    margin-top: 10px;
+  }
+
+  .next-link{ text-align:center; margin-top: 56px; }
+
+  @media (max-width: 640px){
+    .gallery{ grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="blob" style="width:280px;height:280px;top:-80px;left:-80px;background:var(--gold-soft);"></div>
+<div class="blob" style="width:220px;height:220px;bottom:-70px;right:-70px;background:var(--blush-deep);opacity:0.4;"></div>
+
+<div class="nav-wrap">
+  <nav>
+    <a href="index.html">home</a>
+    <a href="story.html">our story</a>
+    <a href="gallery.html" class="active">gallery</a>
+    <a href="love.html">for you</a>
+    <a href="surprise.html">surprise</a>
+  </nav>
+</div>
+
+<main>
+  <h1 class="page-title reveal">Our Moments <span class="sticker">📸</span></h1>
+  <p class="page-lede reveal">A little space for our favorite pictures together — waiting for you to fill it in.</p>
+
+  <div class="gallery">
+    <div class="polaroid"><div class="photo-slot"><span><img src="assets/5.jpeg"></span></div><div class="caption">💍</div></div>
+    <div class="polaroid"><div class="photo-slot"><span><img src="assets/7.jpeg"></span></div><div class="caption">❤️</div></div>
+    <div class="polaroid"><div class="photo-slot"><span><img src="assets/4.jpeg"></span></div><div class="caption">💞</div></div>
+    <div class="polaroid"><div class="photo-slot"><span><img src="assets/8.jpeg"></span></div><div class="caption">💖</div></div>
+    <div class="polaroid"><div class="photo-slot"><span><img src="assets/6.jpeg"></span></div><div class="caption">💌</div></div>
+    <div class="polaroid"><div class="photo-slot"><span><img src="assets/3.jpeg"></span></div><div class="caption">💋</div></div>
+    <div class="polaroid"><div class="photo-slot"><span><img src="assets/1.jpeg"></span></div><div class="caption">🤍</div></div>
+    <div class="polaroid"><div class="photo-slot"><span><img src="assets/2.jpeg"></span></div><div class="caption">👩‍❤️‍💋‍👨</div></div>
+    <div class="polaroid"><div class="photo-slot"><span><img src="assets/9.jpeg"></span></div><div class="caption">💘</div></div>
+  </div>
+
+  <div class="next-link reveal">
+    <a href="love.html"><button class="pill-btn">one more thing →</button></a>
+  </div>
+</main>
+
+<footer class="reveal">
+  <div class="foot-display">made with love, just for you 💌</div>
+  <div>your wife who loves you more than anything</div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger, .polaroid');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

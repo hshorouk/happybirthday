@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .reasons-wrap{ display:flex; justify-content:center; margin-bottom: 10px; }
+  .reasons-list{
+    list-style:none;
+    max-width: 520px;
+    margin: 40px auto 0;
+    display:flex;
+    flex-direction:column;
+    gap: 14px;
+  }
+  .reasons-list li{
+    background: var(--white);
+    border-radius: 16px;
+    padding: 16px 20px;
+    font-size: 15px;
+    line-height:1.6;
+    color: var(--plum-soft);
+    box-shadow: 0 8px 20px rgba(75,58,107,0.08);
+    opacity:0;
+    transform: translateY(14px) scale(0.98);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reasons-list li.show{ opacity:1; transform: translateY(0) scale(1); }
+  .reasons-list li b{ color: var(--red); }
+
+  .gift-section{
+    text-align:center;
+    margin-top: 90px;
+  }
+  .gift-box{
+    font-size: 80px;
+    cursor:pointer;
+    display:inline-block;
+    user-select:none;
+    transition: transform 0.25s ease;
+  }
+  .gift-box:hover{ transform: scale(1.08) rotate(-4deg); }
+  .gift-hint{
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--plum-soft);
+    opacity:0.7;
+  }
+  .gift-message{
+    max-width: 480px;
+    margin: 30px auto 0;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px 30px;
+    font-size: 16px;
+    line-height: 1.9;
+    color: var(--plum);
+    box-shadow: 0 14px 30px rgba(75,58,107,0.12);
+    display:none;
+  }
+  .gift-message.show{ display:block; }
+</style>
+</head>
+<body>
+
+<div class="blob" style="width:300px;height:300px;top:-90px;right:-70px;background:var(--gold-soft);"></div>
+<div class="blob" style="width:230px;height:230px;bottom:0;left:-80px;background:var(--blush);"></div>
+
+<div class="nav-wrap">
+  <nav>
+    <a href="index.html">home</a>
+    <a href="story.html">our story</a>
+    <a href="gallery.html">gallery</a>
+    <a href="love.html" class="active">for you</a>
+    <a href="surprise.html">surprise</a>
+  </nav>
+</div>
+
+<main>
+  <h1 class="page-title reveal">Reasons I Love You <span class="sticker">🌷</span></h1>
+  <p class="page-lede reveal">Just a few of the many, many reasons.</p>
+
+  <div class="reasons-wrap reveal">
+    <button class="pill-btn" id="reasonBtn">tap to reveal</button>
+  </div>
+
+  <ul class="reasons-list" id="reasonsList">
+    <li><b>1.</b> Because you reassure me in the hardest moments, without me even having to ask.</li>
+    <li><b>2.</b> Because your laugh can fix any tired, heavy day.</li>
+    <li><b>3.</b> Because you listen even when I can't find the words myself.</li>
+    <li><b>4.</b> Because you're kind to everyone around you.</li>
+    <li><b>5.</b> Because with you, I finally feel truly safe.</li>
+    <li><b>6.</b> Because You make me feel like I am home </li>
+    <li><b>7.</b> And because, simply... you're my Mohamed, and there's no one like you.</li>
+  </ul>
+
+  <div class="gift-section reveal">
+    <h2 class="page-title" style="font-size: clamp(30px, 6vw, 42px);">Your Gift 🎁</h2>
+    <div class="gift-box" id="giftBox" role="button" tabindex="0" aria-label="open your gift">🎁</div>
+    <div class="gift-hint">tap the gift</div>
+
+    <div class="gift-message" id="giftMessage">
+      Happy birthday, my love 🤍<br>
+      I hope this year brings you everything your heart is hoping for.<br>
+      And this isn't your real gift... come find that one yourself 😉
+    </div>
+  </div>
+</main>
+
+<footer class="reveal">
+  <div class="foot-display">i love you, Mohamed 💌</div>
+  <div>your wife who loves you more than anything</div>
+</footer>
+
+<script>
+  const reasonBtn = document.getElementById('reasonBtn');
+  const reasonItems = document.querySelectorAll('#reasonsList li');
+  let shown = false;
+  reasonBtn.addEventListener('click', ()=>{
+    if(shown) return;
+    shown = true;
+    reasonItems.forEach((li, i)=> setTimeout(()=> li.classList.add('show'), i*250));
+    reasonBtn.textContent = 'from my heart 🤍';
+  });
+
+  const giftBox = document.getElementById('giftBox');
+  const giftMessage = document.getElementById('giftMessage');
+  function openGift(){ giftMessage.classList.toggle('show'); }
+  giftBox.addEventListener('click', openGift);
+  giftBox.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openGift(); }
+  });
+
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

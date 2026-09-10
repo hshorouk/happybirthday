@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .timeline{ display:flex; flex-direction:column; gap: 26px; }
+  .t-card{
+    --tilt: 0deg;
+    background: var(--white);
+    border-radius: 24px;
+    padding: 26px 28px;
+    box-shadow: 0 10px 26px rgba(75,58,107,0.08);
+    display:flex;
+    gap: 20px;
+    align-items:flex-start;
+    opacity: 0;
+    transform: translateY(32px) rotate(var(--tilt));
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .t-card.visible{
+    opacity: 1;
+    transform: translateY(0) rotate(var(--tilt));
+  }
+  .t-card:nth-child(odd){ --tilt: -0.6deg; }
+  .t-card:nth-child(even){ --tilt: 0.6deg; }
+  .t-card:nth-child(1){ transition-delay: 0s; }
+  .t-card:nth-child(2){ transition-delay: 0.08s; }
+  .t-card:nth-child(3){ transition-delay: 0.16s; }
+  .t-card:nth-child(4){ transition-delay: 0.24s; }
+
+  .t-icon{
+    font-size: 30px;
+    background: var(--blush);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  .t-card:nth-child(2) .t-icon{ background: var(--gold-soft); }
+  .t-card:nth-child(3) .t-icon{ background: var(--blush-deep); }
+  .t-card:nth-child(4) .t-icon{ background: var(--gold); }
+
+  .t-date{ font-family:'Baloo 2', sans-serif; font-size: 14px; color: var(--red); margin-bottom: 4px; }
+  .t-title{ font-family:'Baloo 2', sans-serif; font-size: 22px; color: var(--plum); margin-bottom: 6px; }
+  .t-text{ font-size: 15px; color: var(--plum-soft); line-height:1.7; }
+
+  .next-link{ text-align:center; margin-top: 56px; }
+</style>
+</head>
+<body>
+
+<div class="blob" style="width:300px;height:300px;top:-90px;right:-90px;background:var(--blush);"></div>
+<div class="blob" style="width:240px;height:240px;bottom:10%;left:-90px;background:var(--gold-soft);"></div>
+
+<div class="nav-wrap">
+  <nav>
+    <a href="index.html">home</a>
+    <a href="story.html" class="active">our story</a>
+    <a href="gallery.html">gallery</a>
+    <a href="love.html">for you</a>
+    <a href="surprise.html">surprise</a>
+  </nav>
+</div>
+
+<main>
+  <h1 class="page-title reveal">Our Story <span class="sticker">💫</span></h1>
+  <p class="page-lede reveal">Every date here is a little milestone that made me fall for you even more.</p>
+
+  <div class="timeline">
+    <div class="t-card reveal">
+      <div class="t-icon">🤍</div>
+      <div>
+        <div class="t-date">July 23, 2025</div>
+        <div class="t-title">We read Al-Fatiha</div>
+        <div class="t-text">The first official step on our path together. From that day on, I've been looking forward to every new day with you.</div>
+      </div>
+    </div>
+
+    <div class="t-card reveal">
+      <div class="t-icon">💍</div>
+      <div>
+        <div class="t-date">September 6, 2025</div>
+        <div class="t-title">We got engaged</div>
+        <div class="t-text">The day we officially became each other's, in front of everyone. A brand new, even sweeter chapter began.</div>
+      </div>
+    </div>
+
+    <div class="t-card reveal">
+      <div class="t-icon">📜</div>
+      <div>
+        <div class="t-date">May 22, 2026</div>
+        <div class="t-title">Katb Ketab</div>
+        <div class="t-text">The day your name was written next to mine, and we became husband and wife, God willing.</div>
+      </div>
+    </div>
+
+    <div class="t-card reveal">
+      <div class="t-icon">🎂</div>
+      <div>
+        <div class="t-date">September 18</div>
+        <div class="t-title">Your birthday</div>
+        <div class="t-text">Today is all about celebrating you — exactly who you are, and everything you'll be to us for years to come.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-link reveal">
+    <a href="gallery.html"><button class="pill-btn">see our photos →</button></a>
+  </div>
+</main>
+
+<footer class="reveal">
+  <div class="foot-display">made with love, just for you 💌</div>
+  <div>your wife who loves you more than anything</div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

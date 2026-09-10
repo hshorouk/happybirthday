@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surprise</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .envelope-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-top: 20px;
+  }
+  .envelope{
+    font-size: 90px;
+    cursor:pointer;
+    user-select:none;
+    transition: transform 0.25s ease;
+    filter: drop-shadow(0 12px 20px rgba(122,12,19,0.25));
+  }
+  .envelope:hover{ transform: scale(1.06) rotate(-2deg); }
+  .envelope:active{ transform: scale(0.96); }
+
+  .tap-hint{
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--plum-soft);
+  }
+
+  .message-card{
+    max-width: 480px;
+    margin: 34px auto 0;
+    background: var(--white);
+    border-radius: 22px;
+    padding: 34px 30px;
+    box-shadow: 0 16px 34px rgba(122,12,19,0.14);
+    text-align:center;
+    display:none;
+    border: 1px solid var(--blush-deep);
+  }
+  .message-card.show{
+    display:block;
+    animation: popIn 0.4s ease;
+  }
+  @keyframes popIn{
+    0%{ opacity:0; transform: translateY(10px) scale(0.96); }
+    100%{ opacity:1; transform: translateY(0) scale(1); }
+  }
+  .message-card .stamp{ font-size: 26px; margin-bottom: 12px; }
+  .message-card p{ font-size: 17px; line-height: 1.8; color: var(--plum); }
+
+  .again-btn{ margin-top: 26px; display:none; }
+  .again-btn.show{ display:inline-block; }
+</style>
+</head>
+<body>
+
+<div class="blob" style="width:300px;height:300px;top:-90px;left:-80px;background:var(--blush);"></div>
+<div class="blob" style="width:230px;height:230px;bottom:-70px;right:-70px;background:var(--gold-soft);"></div>
+
+<div class="nav-wrap">
+  <nav>
+    <a href="index.html">home</a>
+    <a href="story.html">our story</a>
+    <a href="gallery.html">gallery</a>
+    <a href="love.html">for you</a>
+    <a href="surprise.html" class="active">surprise</a>
+  </nav>
+</div>
+
+<main>
+  <h1 class="page-title reveal">A Little Surprise <span class="sticker">💌</span></h1>
+  <p class="page-lede reveal">Open the envelope for a message from me. Tap again for another one whenever you need it.</p>
+
+  <div class="envelope-wrap reveal">
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="open a surprise message">✉️</div>
+    <div class="tap-hint">tap to open</div>
+
+    <div class="message-card" id="messageCard">
+      <div class="stamp">🤍</div>
+      <p id="messageText"></p>
+    </div>
+
+    <div class="again-btn" id="againBtn">
+      <button class="pill-btn">open another one</button>
+    </div>
+  </div>
+</main>
+
+<footer class="reveal">
+  <div class="foot-display">i love you, Mohamed 💌</div>
+  <div>your wife who loves you more than anything</div>
+</footer>
+
+<script>
+  const messages = [
+    "Whatever happens today, I hope you feel exactly how loved you are.",
+    "You make ordinary days feel like something worth remembering.",
+    "I still can't believe I get to be yours. Happy birthday, my love.",
+    "Thank you for being my safe place, every single day.",
+    "I can't wait for every birthday after this one, with you, forever.",
+    "You are the best decision I never even had to think twice about.",
+    "Here's to another year of us, and to loving you even more than the last.",
+    "You don't just make my life better, you make it make sense."
+  ];
+
+  const envelope = document.getElementById('envelope');
+  const messageCard = document.getElementById('messageCard');
+  const messageText = document.getElementById('messageText');
+  const againBtn = document.getElementById('againBtn');
+  let lastIndex = -1;
+
+  function showMessage(){
+    let idx;
+    do { idx = Math.floor(Math.random() * messages.length); } while(idx === lastIndex && messages.length > 1);
+    lastIndex = idx;
+    messageText.textContent = messages[idx];
+    messageCard.classList.remove('show');
+    void messageCard.offsetWidth;
+    messageCard.classList.add('show');
+    againBtn.classList.add('show');
+  }
+
+  envelope.addEventListener('click', showMessage);
+  envelope.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); showMessage(); }
+  });
+  againBtn.addEventListener('click', showMessage);
+
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

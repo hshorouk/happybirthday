@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Mohamed 🎈</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .hero{
+    min-height: 78vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 20px 10px 60px;
+  }
+  .sticker-row{ font-size: 34px; margin-bottom: 18px; letter-spacing: 10px; }
+  .hero h1{ font-size: clamp(46px, 10vw, 88px); color: var(--red); line-height:1.1; }
+  .hero h1 .accent{ color: var(--gold); }
+  .hero .sub{ margin-top: 20px; font-size: 18px; color: var(--plum-soft); max-width: 440px; line-height:1.8; }
+  .countdown{ margin-top: 42px; display:flex; gap: 14px; flex-wrap:wrap; justify-content:center; }
+  .count-box{ background: var(--white); border-radius: 20px; padding: 16px 20px; min-width: 78px; box-shadow: 0 10px 26px rgba(75,58,107,0.1); }
+  .count-box .num{ font-family:'Baloo 2', sans-serif; font-size: 30px; font-weight:700; color: var(--red); }
+  .count-box .lbl{ font-size: 12px; color: var(--plum-soft); margin-top: 2px; }
+  .explore-btn{ margin-top: 46px; }
+</style>
+</head>
+<body>
+
+<div class="blob" style="width:340px;height:340px;top:-100px;left:-100px;background:var(--blush);"></div>
+<div class="blob" style="width:280px;height:280px;bottom:-80px;right:-80px;background:var(--gold-soft);"></div>
+<div class="blob" style="width:200px;height:200px;top:35%;right:-60px;background:var(--gold);opacity:0.3;"></div>
+
+<div class="nav-wrap">
+  <nav>
+    <a href="index.html" class="active">home</a>
+    <a href="story.html">our story</a>
+    <a href="gallery.html">gallery</a>
+    <a href="love.html">for you</a>
+    <a href="surprise.html">surprise</a>
+  </nav>
+</div>
+
+<main>
+  <section class="hero reveal">
+    <div class="sticker-row">🎂 ✨ 🎈</div>
+    <h1>Happy Birthday<br><span class="accent">Mohamed!</span></h1>
+    <p class="sub">My favorite person in the whole world turns another year older today. I'm the luckiest girl alive 🤍</p>
+
+    <div class="countdown" id="countdown">
+      <div class="count-box"><div class="num" id="cd-days">--</div><div class="lbl">days</div></div>
+      <div class="count-box"><div class="num" id="cd-hours">--</div><div class="lbl">hrs</div></div>
+      <div class="count-box"><div class="num" id="cd-mins">--</div><div class="lbl">min</div></div>
+      <div class="count-box"><div class="num" id="cd-secs">--</div><div class="lbl">sec</div></div>
+    </div>
+
+    <div class="explore-btn">
+      <a href="story.html"><button class="pill-btn">see our story →</button></a>
+    </div>
+  </section>
+</main>
+
+<footer class="reveal">
+  <div class="foot-display">made with love, just for you 💌</div>
+  <div>your wife who loves you more than anything</div>
+</footer>
+
+<script>
+  function nextBirthday(){
+    const now = new Date();
+    let year = now.getFullYear();
+    let target = new Date(year, 8, 18, 0, 0, 0);
+    if(target < now){ target = new Date(year + 1, 8, 18, 0, 0, 0); }
+    return target;
+  }
+  function updateCountdown(){
+    const diff = Math.max(0, nextBirthday() - new Date());
+    document.getElementById('cd-days').textContent = Math.floor(diff / 86400000);
+    document.getElementById('cd-hours').textContent = String(Math.floor(diff / 3600000) % 24).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(Math.floor(diff / 60000) % 60).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(Math.floor(diff / 1000) % 60).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  /* fade-in on scroll */
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
