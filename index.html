@@ -14,22 +14,85 @@ body:before {
     background: #fff url(https://i.ibb.co/Q3JCG2hS/Chat-GPT-Image-Sep-17-2026-07-57-18-PM-removebg-preview.png);
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
     z-index: 99999999999999999 !important;
+
     background-size: 250px !important;
     background-repeat: no-repeat;
     background-position: center !important;
-    animation-name: logobg;
-    animation-duration: 3s;
-    animation-fill-mode: forwards;
-    bottom: 0;
-    left: 0;
-    right: 0;
+
+    animation: logobg 3s forwards;
 }
+
+
+/* Container القلوب */
+.heart-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999999999999998 !important;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+
+/* القلب */
+.loader-heart {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    color: #e91e63;
+    font-size: 20px;
+
+    opacity: 0;
+
+    animation: heartFloat 2.5s ease-out forwards;
+}
+
+
+/* حركة القلب */
+@keyframes heartFloat {
+
+    0% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            scale(0.3)
+            rotate(0deg);
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(
+                calc(-50% + var(--x)),
+                calc(-50% + var(--y))
+            )
+            scale(var(--scale))
+            rotate(var(--rotate));
+    }
+}
+
+
+/* اللوجو */
 @keyframes logobg {
     0% {
         opacity: 1;
         transform: scale(1);
     }
+
     75% {
         opacity: 1;
         transform: scale(1);
@@ -129,6 +192,87 @@ body:before {
     });
   }, { threshold: 0.15 });
   revealEls.forEach(el => io.observe(el));
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+    const container = document.createElement("div");
+    container.className = "heart-loader";
+
+    document.body.appendChild(container);
+
+    const hearts = 35;
+
+    for (let i = 0; i < hearts; i++) {
+
+        const heart = document.createElement("span");
+
+        heart.className = "loader-heart";
+        heart.innerHTML = "♥";
+
+        // مكان خروج القلب حول اللوجو
+        const startX = (Math.random() - 0.5) * 180;
+        const startY = (Math.random() - 0.5) * 100;
+
+        // اتجاه الحركة
+        const moveX = (Math.random() - 0.5) * 500;
+        const moveY = -100 - Math.random() * 350;
+
+        // حجم عشوائي
+        const scale = 0.5 + Math.random() * 1.3;
+
+        // دوران عشوائي
+        const rotate = -40 + Math.random() * 80;
+
+        // لون عشوائي بسيط
+        const colors = [
+            "#e91e63",
+            "#ff4081",
+            "#f06292",
+            "#ec407a",
+            "#d81b60"
+        ];
+
+        heart.style.color =
+            colors[Math.floor(Math.random() * colors.length)];
+
+        heart.style.fontSize =
+            (12 + Math.random() * 18) + "px";
+
+        heart.style.setProperty(
+            "--x",
+            (moveX + startX) + "px"
+        );
+
+        heart.style.setProperty(
+            "--y",
+            (moveY + startY) + "px"
+        );
+
+        heart.style.setProperty(
+            "--scale",
+            scale
+        );
+
+        heart.style.setProperty(
+            "--rotate",
+            rotate + "deg"
+        );
+
+        // كل قلب يظهر في وقت مختلف
+        heart.style.animationDelay =
+            (Math.random() * 1.8) + "s";
+
+        container.appendChild(heart);
+    }
+
+
+    // إزالة الـ loader بعد انتهاء الأنيميشن
+    setTimeout(function () {
+        container.remove();
+    }, 4500);
+
+});
 </script>
 
 </body>
