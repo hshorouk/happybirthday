@@ -7,28 +7,6 @@
 <link rel="icon" type="image/png" href="https://i.ibb.co/Q3JCG2hS/Chat-GPT-Image-Sep-17-2026-07-57-18-PM-removebg-preview.png">    
 <link rel="stylesheet" href="style.css">
 <style>
-body:before {
-    content: "";
-    width: 100%;
-    height: 100%;
-    background: #fff url(https://i.ibb.co/Q3JCG2hS/Chat-GPT-Image-Sep-17-2026-07-57-18-PM-removebg-preview.png);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    z-index: 99999999999999999 !important;
-
-    background-size: 250px !important;
-    background-repeat: no-repeat;
-    background-position: center !important;
-
-    animation: logobg 3s forwards;
-}
-
-
-/* Container القلوب */
 .heart-loader {
     position: fixed;
     inset: 0;
@@ -37,57 +15,87 @@ body:before {
     overflow: hidden;
 }
 
-
-/* القلب */
 .loader-heart {
     position: absolute;
-    left: 50%;
-    top: 50%;
 
-    color: #e91e63;
-    font-size: 20px;
+    left: 50%;
+    top: 57%;
+
+    color: #e6002d;
+    font-weight: normal;
 
     opacity: 0;
 
-    animation: heartFloat 2.5s ease-out forwards;
+    filter: drop-shadow(0 2px 5px rgba(230, 0, 45, 0.18));
+
+    will-change: transform, opacity;
+
+    animation: smoothHeart 3.2s cubic-bezier(.22, .61, .36, 1) forwards;
 }
 
 
-/* حركة القلب */
-@keyframes heartFloat {
+/* حركة القلوب */
+@keyframes smoothHeart {
 
     0% {
         opacity: 0;
         transform:
-            translate(-50%, -50%)
-            scale(0.3)
+            translate3d(
+                calc(-50% + var(--start-x)),
+                calc(-50% + var(--start-y)),
+                0
+            )
+            scale(0.35)
             rotate(0deg);
     }
 
-    15% {
+    12% {
+        opacity: 0.95;
+    }
+
+    35% {
         opacity: 1;
     }
 
-    50% {
-        opacity: 1;
+    70% {
+        opacity: 0.8;
     }
 
     100% {
         opacity: 0;
 
         transform:
-            translate(
-                calc(-50% + var(--x)),
-                calc(-50% + var(--y))
+            translate3d(
+                calc(-50% + var(--end-x)),
+                calc(-50% + var(--end-y)),
+                0
             )
             scale(var(--scale))
             rotate(var(--rotate));
     }
 }
+body:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+
+    background: #ffffff82 url(https://i.ibb.co/Q3JCG2hS/Chat-GPT-Image-Sep-17-2026-07-57-18-PM-removebg-preview.png);
+
+    position: fixed;
+    inset: 0;
+
+    z-index: 99999999999999999 !important;
+
+    background-size: 250px !important;
+    background-repeat: no-repeat;
+    background-position: center !important;
+
+    animation: logobg 3s cubic-bezier(.22, .61, .36, 1) forwards;
+}
 
 
-/* اللوجو */
 @keyframes logobg {
+
     0% {
         opacity: 1;
         transform: scale(1);
@@ -194,80 +202,75 @@ body:before {
   revealEls.forEach(el => io.observe(el));
 
 
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
     const container = document.createElement("div");
     container.className = "heart-loader";
 
     document.body.appendChild(container);
 
-    const hearts = 35;
+    const heartCount = 24;
 
-    for (let i = 0; i < hearts; i++) {
+    for (let i = 0; i < heartCount; i++) {
 
         const heart = document.createElement("span");
 
         heart.className = "loader-heart";
         heart.innerHTML = "♥";
 
-        // مكان خروج القلب حول اللوجو
-        const startX = (Math.random() - 0.5) * 180;
-        const startY = (Math.random() - 0.5) * 100;
+        /*
+         * بداية القلوب:
+         * قريبة من الصورة وليس من الشاشة كلها
+         */
+        const startX = (Math.random() - 0.5) * 130;
+        const startY = (Math.random() - 0.5) * 55;
 
-        // اتجاه الحركة
-        const moveX = (Math.random() - 0.5) * 500;
-        const moveY = -100 - Math.random() * 350;
+        /*
+         * اتجاه الحركة
+         * معظم القلوب تطلع لفوق
+         */
+        const endX = (Math.random() - 0.5) * 330;
+        const endY = -(160 + Math.random() * 230);
 
-        // حجم عشوائي
-        const scale = 0.5 + Math.random() * 1.3;
+        /*
+         * أحجام مختلفة لكن مش ضخمة
+         */
+        const scale = 0.75 + Math.random() * 0.8;
 
-        // دوران عشوائي
-        const rotate = -40 + Math.random() * 80;
+        /*
+         * دوران بسيط
+         */
+        const rotate = -20 + Math.random() * 40;
 
-        // لون عشوائي بسيط
-        const colors = [
-            "#e91e63",
-            "#ff4081",
-            "#f06292",
-            "#ec407a",
-            "#d81b60"
-        ];
+        /*
+         * حجم القلب
+         */
+        const size = 13 + Math.random() * 13;
 
-        heart.style.color =
-            colors[Math.floor(Math.random() * colors.length)];
+        heart.style.fontSize = size + "px";
 
-        heart.style.fontSize =
-            (12 + Math.random() * 18) + "px";
+        heart.style.setProperty("--start-x", startX + "px");
+        heart.style.setProperty("--start-y", startY + "px");
 
-        heart.style.setProperty(
-            "--x",
-            (moveX + startX) + "px"
-        );
+        heart.style.setProperty("--end-x", endX + "px");
+        heart.style.setProperty("--end-y", endY + "px");
 
-        heart.style.setProperty(
-            "--y",
-            (moveY + startY) + "px"
-        );
+        heart.style.setProperty("--scale", scale);
+        heart.style.setProperty("--rotate", rotate + "deg");
 
-        heart.style.setProperty(
-            "--scale",
-            scale
-        );
-
-        heart.style.setProperty(
-            "--rotate",
-            rotate + "deg"
-        );
-
-        // كل قلب يظهر في وقت مختلف
+        /*
+         * ظهور القلوب تدريجيًا
+         */
         heart.style.animationDelay =
-            (Math.random() * 1.8) + "s";
+            (i * 0.07 + Math.random() * 0.4) + "s";
 
         container.appendChild(heart);
     }
 
 
-    // إزالة الـ loader بعد انتهاء الأنيميشن
+    /*
+     * حذف القلوب بعد انتهاء الأنيميشن
+     */
     setTimeout(function () {
         container.remove();
     }, 4500);
